@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod:*)",
+      "Bash(tree:*)",
+      "WebFetch(domain:openclaw.ai)",
+      "WebFetch(domain:platform.moonshot.ai)",
+      "WebFetch(domain:www.cometapi.com)",
+      "WebFetch(domain:docs.openclaw.ai)",
+      "WebFetch(domain:gohsoonheng00.medium.com)",
+      "WebFetch(domain:docs.n8n.io)",
+      "WebFetch(domain:kimik2ai.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl:*)",
+      "Bash(docker:*)",
+      "Bash(docker compose:*)",
+      "Bash(git init:*)",
+      "Bash(openssl rand:*)",
+      "Bash(git check-ignore:*)"
+    ]
+  }
+}

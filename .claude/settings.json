@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "stop": ".claude/hooks/stop.sh",
+    "post-tool-use": {
+      "edit": ".claude/hooks/post-tool-use-typecheck.py",
+      "multi-edit": ".claude/hooks/post-tool-use-typecheck.py",
+      "write": ".claude/hooks/post-tool-use-typecheck.py"
+    }
+  }
+}

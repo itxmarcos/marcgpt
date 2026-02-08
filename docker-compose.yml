@@ -1,0 +1,105 @@
+services:
+  # ===== OpenClaw Gateway =====
+  openclaw-gateway:
+    image: alpine/openclaw:latest
+    container_name: marcgpt-openclaw
+    restart: unless-stopped
+    init: true
+    environment:
+      HOME: /home/node
+      TERM: xterm-256color
+      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN}
+      MOONSHOT_API_KEY: ${MOONSHOT_API_KEY}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_OWNER_ID: ${TELEGRAM_OWNER_ID}
+    volumes:
+      - ./src/main/openclaw:/home/node/.openclaw
+      - openclaw-workspace:/home/node/.openclaw/workspace
+    ports:
+      - "18789:18789"
+      - "18790:18790"
+    networks:
+      - marcgpt-net
+    command: ["node", "dist/index.js", "gateway", "--bind", "lan", "--port", "18789"]
+
+  # ===== OpenClaw CLI (on-demand, not started by default) =====
+  openclaw-cli:
+    image: alpine/openclaw:latest
+    container_name: marcgpt-openclaw-cli
+    environment:
+      HOME: /home/node
+      TERM: xterm-256color
+      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN}
+      MOONSHOT_API_KEY: ${MOONSHOT_API_KEY}
+      BROWSER: "echo"
+    volumes:
+      - ./src/main/openclaw:/home/node/.openclaw
+      - openclaw-workspace:/home/node/.openclaw/workspace
+    stdin_open: true
+    tty: true
+    init: true
+    networks:
+      - marcgpt-net
+    entrypoint: ["node", "dist/index.js"]
+    profiles:
+      - cli
+
+  # ===== PostgreSQL (for n8n) =====
+  postgres:
+    image: postgres:16-alpine
+    container_name: marcgpt-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_NON_ROOT_USER: ${POSTGRES_NON_ROOT_USER}
+      POSTGRES_NON_ROOT_PASSWORD: ${POSTGRES_NON_ROOT_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./src/main/n8n/init-data.sh:/docker-entrypoint-initdb.d/init-data.sh
+    networks:
+      - marcgpt-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ===== n8n Workflow Automation =====
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: marcgpt-n8n
+    restart: unless-stopped
+    environment:
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_PORT: "5432"
+      DB_POSTGRESDB_DATABASE: ${POSTGRES_DB}
+      DB_POSTGRESDB_USER: ${POSTGRES_NON_ROOT_USER}
+      DB_POSTGRESDB_PASSWORD: ${POSTGRES_NON_ROOT_PASSWORD}
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_USER: ${N8N_BASIC_AUTH_USER}
+      N8N_BASIC_AUTH_PASSWORD: ${N8N_BASIC_AUTH_PASSWORD}
+      N8N_HOST: ${N8N_HOST}
+      N8N_PORT: ${N8N_PORT}
+      N8N_PROTOCOL: ${N8N_PROTOCOL}
+      WEBHOOK_URL: ${WEBHOOK_URL}
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n-data:/home/node/.n8n
+    networks:
+      - marcgpt-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  openclaw-workspace:
+  postgres-data:
+  n8n-data:
+
+networks:
+  marcgpt-net:
+    driver: bridge

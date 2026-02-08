@@ -1,0 +1,47 @@
+{
+  "models": {
+    "providers": {
+      "moonshot": {
+        "type": "openai-completions",
+        "base_url": "https://api.moonshot.ai/v1",
+        "auth_env": "MOONSHOT_API_KEY",
+        "models": [
+          {
+            "id": "kimi-k2.5",
+            "name": "Kimi K2.5",
+            "reasoning": true,
+            "input": ["text"],
+            "context_window": 131072,
+            "max_tokens": 4096
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "moonshot/kimi-k2.5"
+      }
+    }
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "bot_token_env": "TELEGRAM_BOT_TOKEN",
+      "dm_policy": "allowlist",
+      "allow_from_env": "TELEGRAM_OWNER_ID",
+      "groups": {
+        "*": {
+          "require_mention": true
+        }
+      }
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "auth": {
+      "token_env": "OPENCLAW_GATEWAY_TOKEN"
+    }
+  }
+}
