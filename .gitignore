@@ -19,6 +19,9 @@ node_modules/
 # Logs
 *.log
 
+# OpenClaw runtime config (contains resolved secrets, modified by OpenClaw)
+src/main/openclaw/openclaw.json
+
 # Docker runtime data (named volumes, not tracked)
 # Local override files
 docker-compose.override.yml

@@ -41,6 +41,13 @@ if [ "$OPENCLAW_GATEWAY_TOKEN" = "generate-a-random-token-here" ]; then
     echo "Generated OPENCLAW_GATEWAY_TOKEN"
 fi
 
+# Generate OpenClaw config from template if it doesn't exist
+if [ ! -f src/main/openclaw/openclaw.json ]; then
+    echo "Generating openclaw.json from template..."
+    cp src/main/openclaw/openclaw.json.template src/main/openclaw/openclaw.json
+    echo "OpenClaw config created (env vars will be resolved on first startup)"
+fi
+
 # Ensure init-data.sh is executable
 chmod +x src/main/n8n/init-data.sh
 

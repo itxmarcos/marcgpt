@@ -2,17 +2,17 @@
   "models": {
     "providers": {
       "moonshot": {
-        "type": "openai-completions",
-        "base_url": "https://api.moonshot.ai/v1",
-        "auth_env": "MOONSHOT_API_KEY",
+        "baseUrl": "https://api.moonshot.ai/v1",
+        "apiKey": "${MOONSHOT_API_KEY}",
+        "api": "openai-completions",
         "models": [
           {
             "id": "kimi-k2.5",
             "name": "Kimi K2.5",
             "reasoning": true,
             "input": ["text"],
-            "context_window": 131072,
-            "max_tokens": 4096
+            "contextWindow": 131072,
+            "maxTokens": 4096
           }
         ]
       }
@@ -28,20 +28,21 @@
   "channels": {
     "telegram": {
       "enabled": true,
-      "bot_token_env": "TELEGRAM_BOT_TOKEN",
-      "dm_policy": "allowlist",
-      "allow_from_env": "TELEGRAM_OWNER_ID",
+      "botToken": "${TELEGRAM_BOT_TOKEN}",
+      "dmPolicy": "allowlist",
+      "allowFrom": ["tg:${TELEGRAM_OWNER_ID}"],
       "groups": {
         "*": {
-          "require_mention": true
+          "requireMention": true
         }
       }
     }
   },
   "gateway": {
+    "mode": "local",
     "port": 18789,
     "auth": {
-      "token_env": "OPENCLAW_GATEWAY_TOKEN"
+      "token": "${OPENCLAW_GATEWAY_TOKEN}"
     }
   }
 }
