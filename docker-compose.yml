@@ -84,6 +84,8 @@ services:
       N8N_HOST: ${N8N_HOST}
       N8N_PORT: ${N8N_PORT}
       N8N_PROTOCOL: ${N8N_PROTOCOL}
+      N8N_SECURE_COOKIE: "false"
+      N8N_LICENSE_ACTIVATION_KEY: ${N8N_LICENSE_KEY:-}
       WEBHOOK_URL: ${WEBHOOK_URL}
     ports:
       - "5678:5678"

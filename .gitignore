@@ -19,8 +19,15 @@ node_modules/
 # Logs
 *.log
 
-# OpenClaw runtime config (contains resolved secrets, modified by OpenClaw)
+# OpenClaw runtime data (generated at runtime, may contain secrets)
 src/main/openclaw/openclaw.json
+src/main/openclaw/openclaw.json.bak
+src/main/openclaw/update-check.json
+src/main/openclaw/agents/
+src/main/openclaw/canvas/
+src/main/openclaw/cron/
+src/main/openclaw/devices/
+src/main/openclaw/identity/
 
 # Docker runtime data (named volumes, not tracked)
 # Local override files

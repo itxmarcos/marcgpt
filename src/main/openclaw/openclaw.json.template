@@ -43,6 +43,11 @@
     "port": 18789,
     "auth": {
       "token": "${OPENCLAW_GATEWAY_TOKEN}"
-    }
+    },
+    "controlUi": {
+      "enabled": true,
+      "allowInsecureAuth": true
+    },
+    "trustedProxies": ["192.168.65.0/24", "172.17.0.0/16"]
   }
 }

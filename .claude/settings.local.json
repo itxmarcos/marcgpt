@@ -17,7 +17,8 @@
       "Bash(docker compose:*)",
       "Bash(git init:*)",
       "Bash(openssl rand:*)",
-      "Bash(git check-ignore:*)"
+      "Bash(git check-ignore:*)",
+      "WebFetch(domain:fossies.org)"
     ]
   }
 }
