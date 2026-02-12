@@ -4,6 +4,7 @@ services:
     image: alpine/openclaw:latest
     container_name: marcgpt-openclaw
     restart: unless-stopped
+    user: "0"
     init: true
     environment:
       HOME: /home/node
@@ -12,15 +13,18 @@ services:
       MOONSHOT_API_KEY: ${MOONSHOT_API_KEY}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
       TELEGRAM_OWNER_ID: ${TELEGRAM_OWNER_ID}
+      NOTION_API_KEY: ${NOTION_API_KEY:-}
+      NOTION_DATABASE_ID: ${NOTION_DATABASE_ID:-}
+      CLOCKIFY_API_KEY: ${CLOCKIFY_API_KEY:-}
+      CLOCKIFY_WORKSPACE_ID: ${CLOCKIFY_WORKSPACE_ID:-}
     volumes:
       - ./src/main/openclaw:/home/node/.openclaw
-      - openclaw-workspace:/home/node/.openclaw/workspace
     ports:
       - "18789:18789"
       - "18790:18790"
     networks:
       - marcgpt-net
-    command: ["node", "dist/index.js", "gateway", "--bind", "lan", "--port", "18789"]
+    command: ["sh", "-c", "chown -R 1000:1000 /home/node/.openclaw/workspace && exec su -s /bin/sh -c 'exec node dist/index.js gateway --bind lan --port 18789' node"]
 
   # ===== OpenClaw CLI (on-demand, not started by default) =====
   openclaw-cli:
@@ -34,7 +38,6 @@ services:
       BROWSER: "echo"
     volumes:
       - ./src/main/openclaw:/home/node/.openclaw
-      - openclaw-workspace:/home/node/.openclaw/workspace
     stdin_open: true
     tty: true
     init: true
@@ -114,7 +117,6 @@ services:
       - cli
 
 volumes:
-  openclaw-workspace:
   postgres-data:
   n8n-data:
 

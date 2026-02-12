@@ -28,6 +28,7 @@ src/main/openclaw/canvas/
 src/main/openclaw/cron/
 src/main/openclaw/devices/
 src/main/openclaw/identity/
+src/main/openclaw/telegram/
 
 # Docker runtime data (named volumes, not tracked)
 # Local override files

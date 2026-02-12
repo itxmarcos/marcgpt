@@ -1,0 +1,7 @@
+- **Name:** Marcos Caballero
+- **What to call them:** Marc
+- **Pronouns:** he/him
+- **Timezone:** Europe/Madrid (CET/CEST)
+- **Language:** Español para conversación, inglés para código/comentarios
+- **Telegram:** @srcaballero99 (id:1515234231)
+- **Productivity stack:** Notion (knowledge base, focus sessions), Clockify (time tracking), n8n (workflow automation)

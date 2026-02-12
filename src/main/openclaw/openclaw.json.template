@@ -9,7 +9,7 @@
           {
             "id": "kimi-k2.5",
             "name": "Kimi K2.5",
-            "reasoning": true,
+            "reasoning": false,
             "input": ["text"],
             "contextWindow": 131072,
             "maxTokens": 4096
