@@ -1,0 +1,31 @@
+{
+  "name": "@marcgpt/focus-sessions",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Focus Sessions sync engine: Notion calendar -> Clockify time tracking",
+  "main": "dist/cli.js",
+  "bin": {
+    "focus-sessions": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "sync:push": "tsx src/cli.ts sync:push",
+    "sync:dry-run": "tsx src/cli.ts sync:dry-run",
+    "sync:pull": "tsx src/cli.ts sync:pull",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.0",
+    "commander": "^13.0.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

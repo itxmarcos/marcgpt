@@ -97,6 +97,22 @@ services:
       postgres:
         condition: service_healthy
 
+  # ===== Focus Sessions Sync (on-demand) =====
+  focus-sessions:
+    build:
+      context: ./src/main/focus-sessions
+      dockerfile: Dockerfile
+    container_name: marcgpt-focus-sessions
+    environment:
+      NOTION_API_KEY: ${NOTION_API_KEY:-}
+      NOTION_DATABASE_ID: ${NOTION_DATABASE_ID:-}
+      CLOCKIFY_API_KEY: ${CLOCKIFY_API_KEY:-}
+      CLOCKIFY_WORKSPACE_ID: ${CLOCKIFY_WORKSPACE_ID:-}
+    networks:
+      - marcgpt-net
+    profiles:
+      - cli
+
 volumes:
   openclaw-workspace:
   postgres-data:
